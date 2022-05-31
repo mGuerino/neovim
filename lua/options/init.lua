@@ -1,4 +1,7 @@
+vim.cmd('colorscheme nordfox')
+
 vim.cmd('filetype plugin indent on')
+vim.g.completeopt="menu,menuone,noselect,noinsert"
 vim.o.shortmess = vim.o.shortmess .. 'c'
 vim.o.hidden = true
 vim.o.whichwrap = 'b,s,<,>,[,],h,l'
@@ -35,3 +38,4 @@ vim.o.autoindent = true
 vim.bo.autoindent = true
 vim.o.expandtab = true
 vim.bo.expandtab = true
+vim.o.swapfile = false

@@ -9,3 +9,5 @@ map('v', '<', '<gv', {noremap = true, silent = false})
 map('v', '>', '>gv', {noremap = true, silent = false})
 
 map('n', '<leader>&', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
+map('n', '<C-p>', ':Telescope find_files<CR>', {noremap = true, silent = true})
+map('n', '<leader>ev', ':e $MYVIMRC<CR>', {noremap = true, silent = true})

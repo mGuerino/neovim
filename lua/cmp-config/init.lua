@@ -5,12 +5,12 @@ end
 
 local luasnip = require("luasnip")
 local cmp = require("cmp")
+local lspkind = require('lspkind')
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end 
-local cmp = require'cmp'
+end
 
   cmp.setup({
     snippet = {
@@ -31,11 +31,6 @@ local cmp = require'cmp'
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    }),
-      mapping = {
-
-    -- ... Your other mappings ...
-
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -57,17 +52,27 @@ local cmp = require'cmp'
         fallback()
       end
     end, { "i", "s" }),
-
-    -- ... Your other mappings ...
-  },
-    sources = cmp.config.sources({
+    }),
+          sources = cmp.config.sources({
       { name = 'nvim_lsp' },
        { name = 'luasnip' }, -- For luasnip users.
       -- { name = 'ultisnips' }, -- For ultisnips users.
       -- { name = 'snippy' }, -- For snippy users.
     }, {
       { name = 'buffer' },
-    })
+    }),
+    formatting = {
+        format = lspkind.cmp_format({
+            mode = 'symbol_text', -- show only symbol annotations
+            maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+
+            -- The function below will be called before any actual modifications from lspkind
+            -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+            before = function (entry, vim_item)
+                return vim_item
+            end
+        })
+    }
   })
 
   -- Set configuration for specific filetype.
@@ -96,10 +101,3 @@ local cmp = require'cmp'
       { name = 'cmdline' }
     })
   })
-
-  -- Setup lspconfig.
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-  require 'lspconfig'.html.setup {
-    capabilities = capabilities
-  }

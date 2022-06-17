@@ -1,7 +1,7 @@
 vim.cmd('colorscheme nordfox')
 
 vim.cmd('filetype plugin indent on')
-vim.g.completeopt="menu,menuone,noselect,noinsert"
+vim.g.completeopt="menuone,noselect"
 vim.o.shortmess = vim.o.shortmess .. 'c'
 vim.o.hidden = true
 vim.o.whichwrap = 'b,s,<,>,[,],h,l'
@@ -17,7 +17,7 @@ vim.o.showmode = true
 vim.o.backup = false
 vim.o.writebackup = false
 vim.o.updatetime = 300
-vim.o.timeoutlen = 100
+vim.o.timeoutlen = 1000
 vim.o.clipboard = "unnamedplus"
 vim.o.hlsearch = false
 vim.o.ignorecase = true

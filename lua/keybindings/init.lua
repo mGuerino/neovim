@@ -1,44 +1,28 @@
-vim.g.mapleader = ' '
-local map = vim.api.nvim_set_keymap
-map('n', '<C-h>', '<C-w>h', {noremap = true, silent = false})
-map('n', '<C-l>', '<C-w>l', {noremap = true, silent = false})
-map('n', '<C-j>', '<C-w>j', {noremap = true, silent = false})
-map('n', '<C-k>', '<C-w>k', {noremap = true, silent = false})
-
-map('v', '<', '<gv', {noremap = true, silent = false})
-map('v', '>', '>gv', {noremap = true, silent = false})
-
 local opts = { noremap=true, silent=false}
--- Don't jump when using *
-map("n", "*", "*<C-o>", opts)
 
--- Keep search matches in the middle of the window
-map("n", "n", "nzzzv", opts)
-map("n", "N", "Nzzzv", opts)
+vim.keymap.set('n', '<leader>&', ':NvimTreeToggle<CR>', {noremap = true, silent = false})
 
-map('n', '<leader>&', ':NvimTreeToggle<CR>', {noremap = true, silent = false})
+vim.keymap.set('n', '<C-p>', ':Telescope find_files<CR>', {noremap = true, silent = true})
+vim.keymap.set('n', '<leader>ff', ':Telescope live_grep<CR>', {noremap = true, silent = true})
+vim.keymap.set('n', '<leader>fb', ':Telescope buffers<CR>', {noremap = true, silent = true})
 
-map('n', '<C-p>', ':Telescope find_files<CR>', {noremap = true, silent = true})
-map('n', '<leader>ff', ':Telescope live_grep<CR>', {noremap = true, silent = true})
-map('n', '<leader>fb', ':Telescope buffers<CR>', {noremap = true, silent = true})
+vim.keymap.set('n', '<leader>ev', ':e $MYVIMRC<CR>', {noremap = true, silent = true})
 
-map('n', '<leader>ev', ':e $MYVIMRC<CR>', {noremap = true, silent = true})
+vim.keymap.set('n', '<leader>m', ':lua require("harpoon.mark").add_file()<CR>', {noremap = true, silent = false})
+vim.keymap.set('n', '<leader>p', ':lua require("harpoon.ui").toggle_quick_menu()<CR>', {noremap = true, silent = false})
+vim.keymap.set('n', '<leader>a', ':lua require("harpoon.ui").nav_file(1)<CR>', {noremap = true, silent = false})
+vim.keymap.set('n', '<leader>z', ':lua require("harpoon.ui").nav_file(2)<CR>', {noremap = true, silent = false})
+vim.keymap.set('n', '<leader>e', ':lua require("harpoon.ui").nav_file(3)<CR>', {noremap = true, silent = false})
+vim.keymap.set('n', '<leader>r', ':lua require("harpoon.ui").nav_file(4)<CR>', {noremap = true, silent = false})
 
-map('n', '<leader>m', ':lua require("harpoon.mark").add_file()<CR>', {noremap = true, silent = false})
-map('n', '<leader>p', ':lua require("harpoon.ui").toggle_quick_menu()<CR>', {noremap = true, silent = false})
-map('n', '<leader>a', ':lua require("harpoon.ui").nav_file(1)<CR>', {noremap = true, silent = false})
-map('n', '<leader>z', ':lua require("harpoon.ui").nav_file(2)<CR>', {noremap = true, silent = false})
-map('n', '<leader>e', ':lua require("harpoon.ui").nav_file(3)<CR>', {noremap = true, silent = false})
-map('n', '<leader>r', ':lua require("harpoon.ui").nav_file(4)<CR>', {noremap = true, silent = false})
-
-map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', {noremap = true, silent = false})
+vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', {noremap = true, silent = false})
 
 -- map('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-map('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-map('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-map('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+vim.keymap.set('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 
-map('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+vim.keymap.set('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
@@ -48,7 +32,7 @@ local on_attach = function(client, bufnr)
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  map('<cmd>lua vim.lsp.buf.definition()<CR>', 'gd', 'n', opts)
+  vim.keymap.set('<cmd>lua vim.lsp.buf.definition()<CR>', 'gd', 'n', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -61,3 +45,4 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
+

@@ -1,8 +1,8 @@
 require("nvim-lsp-installer").setup {}
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local servers = { 'html', 'intelephense', 'tsserver','sumneko_lua','phpactor', 'tailwindcss' }
+local servers = { 'html', 'intelephense', 'tsserver','lua_ls', 'tailwindcss', 'emmet_ls' }
 
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
@@ -15,10 +15,21 @@ for _, lsp in pairs(servers) do
   }
 
   require('lspconfig')['intelephense'].setup {
-    capabilities = capabilities
+    capabilities = capabilities,
+    settings = {
+        stubs = {
+            "wordpress",
+            "wordpress-globals"
+        },
+        environnement = {
+            -- include_Paths = 'home/michaelguerino/.composer/vendor/php-stubs/'
+            include_Paths = '~/.composer/vendor/php-stubs/'
+        }
+    }
+
   }
 -- Todo - optimize with an if
-  require'lspconfig'.sumneko_lua.setup {
+  require'lspconfig'.lua_ls.setup {
     -- ... other configs
     settings = {
         Lua = {
@@ -28,5 +39,7 @@ for _, lsp in pairs(servers) do
         }
     }
 }
+
+vim.lsp.set_log_level("debug")
 end
 

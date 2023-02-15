@@ -18,7 +18,10 @@ return require('packer').startup(function(use)
             requires = {
                 'kyazdani42/nvim-web-devicons', -- optional, for file icon
             },
-            tag = 'nightly' -- optional, updated every week. (see issue #1193)
+            tag = 'nightly',-- optional, updated every week. (see issue #1193)
+            config = function()
+                require('user/plugins/nvim-tree')
+            end,
         }
         use 'windwp/nvim-ts-autotag'
         use 'windwp/nvim-autopairs'
@@ -34,7 +37,6 @@ return require('packer').startup(function(use)
             }
         }
         use "EdenEast/nightfox.nvim"
-        use 'neovim/nvim-lspconfig'
         use 'hrsh7th/cmp-nvim-lsp'
         use 'hrsh7th/cmp-buffer'
         use 'hrsh7th/cmp-path'
@@ -44,6 +46,7 @@ return require('packer').startup(function(use)
         use 'saadparwaiz1/cmp_luasnip'
         use 'onsails/lspkind.nvim'
         -- use "williamboman/nvim-lsp-installer"
+
         -- Language Server Protocol.
         use({
                 'neovim/nvim-lspconfig',
@@ -54,9 +57,9 @@ return require('packer').startup(function(use)
                     'jose-elias-alvarez/null-ls.nvim',
                     'jayp0521/mason-null-ls.nvim',
                 },
-                config = function()
-                    require('lua/lspconfig.init')
-                end,
+                -- config = function()
+                --     require('lua/lspconfig')
+                -- end,
             }) 
         use {
             'numToStr/Comment.nvim',
@@ -65,9 +68,12 @@ return require('packer').startup(function(use)
             end
         }
         use "ThePrimeagen/harpoon"
-        use { "akinsho/toggleterm.nvim", config = function()
-            require("toggleterm").setup()
-        end }
+        use { 
+            "akinsho/toggleterm.nvim",
+            config = function()
+                require('user/plugins/toggleterm')
+            end
+        }
         use "ray-x/lsp_signature.nvim"
         use { "noahfrederick/vim-laravel",
             requires = {
@@ -79,8 +85,8 @@ return require('packer').startup(function(use)
         use({
             'lewis6991/gitsigns.nvim',
             config = function()
-                --[[ require('gitsigns').setup()
-                vim.keymap.set('n', ']h', ':Gitsigns next_hunk<CR>') ]]
+                require('gitsigns').setup()
+                vim.keymap.set('n', ']h', ':Gitsigns next_hunk<CR>')
                 vim.keymap.set('n', '[h', ':Gitsigns prev_hunk<CR>')
                 vim.keymap.set('n', 'gs', ':Gitsigns stage_hunk<CR>')
                    vim.keymap.set('n', 'gS', ':Gitsigns undo_stage_hunk<CR>')

@@ -1,3 +1,5 @@
+print('nvim tree')
+
 require'nvim-tree'.setup {
     hijack_cursor = true,
     update_focused_file = {
@@ -6,3 +8,4 @@ require'nvim-tree'.setup {
         ignore_list = {},
   },
 }
+

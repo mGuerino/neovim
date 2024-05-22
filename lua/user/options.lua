@@ -1,7 +1,9 @@
-vim.cmd('colorscheme nordfox')
+vim.cmd('colorscheme dayfox')
+-- vim.o.background = "light" -- or "light" for light mode
+-- vim.cmd([[colorscheme gruvbox]])
 
 vim.cmd('filetype plugin indent on')
-vim.g.completeopt="menuone,noselect"
+vim.g.completeopt="menuone,noselect,preview"
 vim.o.shortmess = vim.o.shortmess .. 'c'
 vim.o.hidden = true
 vim.o.whichwrap = 'b,s,<,>,[,],h,l'

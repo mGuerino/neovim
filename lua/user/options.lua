@@ -3,12 +3,13 @@ vim.cmd('colorscheme dayfox')
 -- vim.cmd([[colorscheme gruvbox]])
 
 vim.cmd('filetype plugin indent on')
-vim.g.completeopt="menuone,noselect,preview"
+vim.g.completeopt = "menuone,noselect,preview"
 vim.o.shortmess = vim.o.shortmess .. 'c'
 vim.o.hidden = true
 vim.o.whichwrap = 'b,s,<,>,[,],h,l'
 vim.o.pumheight = 10
 vim.o.fileencoding = 'utf-8'
+vim.o.encoding = 'utf-8'
 vim.o.cmdheight = 2
 vim.o.splitbelow = true
 vim.o.splitright = true
@@ -18,8 +19,12 @@ vim.o.showtabline = 0
 vim.o.showmode = true
 vim.o.backup = false
 vim.o.writebackup = false
-vim.o.updatetime = 300
+
 vim.o.timeoutlen = 1000
+vim.o.ttimeoutlen = 0
+
+-- vim.o.updatetime = 300
+-- vim.o.timeoutlen = 1000
 vim.o.clipboard = "unnamedplus"
 vim.o.hlsearch = false
 vim.o.ignorecase = true

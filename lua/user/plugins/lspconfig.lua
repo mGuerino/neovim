@@ -83,38 +83,6 @@ require('lspconfig').jsonls.setup({
 })
 
 
---LiveWire
--- require'lspconfig'.blade.setup{
---     default_config = {
---         cmd = { "/home/.local/bin/laravel-dev-tools", "lsp" },
---         filetypes = { 'blade' },
---         root_dir = function(_)
---             return vim.loop.cwd()
---         end,
---         settings = {},
---     },
---         capabilities = capabilities
--- }
--- local lspconfig = require'lspconfig'
--- local configs = require 'lspconfig.configs'
---
--- -- Configure it
--- configs.blade = {
---   default_config = {
---     -- Path to the executable: laravel-dev-generators
---     cmd = { "/usr/local/bin/laravel-dev-tools", "lsp" },
---     filetypes = {'blade'};
---     root_dir = function(fname)
---       return lspconfig.util.find_git_ancestor(fname)
---     end;
---     settings = {};
---   };
--- }
--- Set it up
--- lspconfig.blade.setup{
---   -- Capabilities is specific to my setup.
---   capabilities = capabilities
--- }
 
 -- Keymaps
 vim.keymap.set('n', '<Leader>d', '<cmd>lua vim.diagnostic.open_float()<CR>')

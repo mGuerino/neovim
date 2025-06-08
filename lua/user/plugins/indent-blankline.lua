@@ -14,6 +14,9 @@
 --         },
 --     })
 require "ibl".overwrite {
+    indent = {
+        char = "▏"
+    },
     exclude = {
         filetypes = {
             'help',

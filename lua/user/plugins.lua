@@ -7,12 +7,6 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
-    --  use 'arcticicestudio/nord-vim'
-    use 'shaunsingh/nord.nvim'
-    -- Display indentation lines.
-    use {
-        "ellisonleao/gruvbox.nvim",
-    }
     use({
         'lukas-reineke/indent-blankline.nvim',
         config = function()
@@ -39,7 +33,13 @@ return require('packer').startup(function(use)
             require('user/plugins/nvim-tree')
         end,
     }
-    use 'windwp/nvim-ts-autotag'
+    use {
+        'windwp/nvim-ts-autotag',
+        config = function()
+            require('user/plugins/autotag')
+        end
+    }
+
     use {
         'windwp/nvim-autopairs',
         config = function()
@@ -94,7 +94,6 @@ return require('packer').startup(function(use)
             vim.api.nvim_set_hl(0, 'IndentBlanklineChar', { fg = '#424454' })
         end,
     })
-    use "savq/melange-nvim" -- Completion
     use({
         'hrsh7th/nvim-cmp',
         requires = {
@@ -117,8 +116,6 @@ return require('packer').startup(function(use)
             run = ':MasonUpdate',
             'williamboman/mason-lspconfig.nvim',
             'b0o/schemastore.nvim',
-            -- 'jose-elias-alvarez/null-ls.nvim',
-            -- 'jayp0521/mason-null-ls.nvim',
         },
         config = function()
             require('user/plugins/lspconfig')
@@ -128,6 +125,12 @@ return require('packer').startup(function(use)
         'numToStr/Comment.nvim',
         config = function()
             require('Comment').setup()
+        end
+    }
+    use {
+        'JoosepAlviste/nvim-ts-context-commentstring',
+        config = function()
+            require('user/plugins/context-commentstring')
         end
     }
     use {
@@ -174,22 +177,22 @@ return require('packer').startup(function(use)
         'tpope/vim-fugitive',
         requires = 'tpope/vim-rhubarb',
     })
-    use({
-        'nvim-neotest/neotest',
-        requires = {
-            "nvim-lua/plenary.nvim",
-            "nvim-treesitter/nvim-treesitter",
-            "antoinemadec/FixCursorHold.nvim",
-            'olimorris/neotest-phpunit',
-        },
-        config = function()
-            require('neotest').setup({
-                adapters = {
-                    require('neotest-phpunit'),
-                }
-            })
-        end
-    })
+    -- use({
+    --     'nvim-neotest/neotest',
+    --     requires = {
+    --         "nvim-lua/plenary.nvim",
+    --         "nvim-treesitter/nvim-treesitter",
+    --         "antoinemadec/FixCursorHold.nvim",
+    --         'olimorris/neotest-phpunit',
+    --     },
+    --     config = function()
+    --         require('neotest').setup({
+    --             adapters = {
+    --                 require('neotest-phpunit'),
+    --             }
+    --         })
+    --     end
+    -- })
     -- Testing helper
     use({
         'vim-test/vim-test',
@@ -220,4 +223,108 @@ return require('packer').startup(function(use)
         end,
         opts = {},
     })
+    use({
+        'stevearc/oil.nvim',
+        config = function()
+            require('user.plugins.oil')
+        end,
+    })
+    use {
+        'ricardoramirezr/blade-nav.nvim',
+        ft = { 'blade', 'php' },
+        config = function()
+            require("blade-nav").setup();
+        end
+    }
+    -- use {
+    --     "supermaven-inc/supermaven-nvim",
+    --     config = function()
+    --         require("supermaven-nvim").setup({
+    --             keymaps = {
+    --                 accept_suggestion = "<C-l>",
+    --                 clear_suggestion = "<C-c>",
+    --                 accept_word = "<C-j>"
+    --             }
+    --         })
+    --     end,
+    -- }
+    use {
+        'github/copilot.vim',
+        -- map like supermaven
+        config = function()
+            local map = vim.keymap.set
+
+            map("i", "<C-l>", "copilot#Accept('<CR>')",
+                { noremap = true, silent = true, expr = true, replace_keycodes = false })
+            local map2 = vim.keymap.set
+            map2('i', "<C-j>", "copilot#AcceptWord('<C-j>')",
+                { noremap = true, silent = true, expr = true, replace_keycodes = false })
+            vim.g.copilot_no_tab_map = true
+        end
+    }
+    use {
+        'rgroli/other.nvim',
+        config = function()
+            require('user.plugins.other')
+        end
+    }
+    -- -- Avante.nvim with build process
+    -- use {
+    --     'yetone/avante.nvim',
+    --     branch = 'main',
+    --     run = 'make',
+    --     requires = {
+    --         'HakonHarnes/img-clip.nvim',
+    --         'stevearc/dressing.nvim',
+    --         'MunifTanjim/nui.nvim',
+    --         'MeanderingProgrammer/render-markdown.nvim',
+    --         "nvim-treesitter/nvim-treesitter",
+    --         "nvim-lua/plenary.nvim",
+    --         --- The below dependencies are optional,
+    --         "echasnovski/mini.pick",         -- for file_selector provider mini.pick
+    --         "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+    --         "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
+    --         "ibhagwan/fzf-lua",              -- for file_selector provider fzf
+    --         "folke/snacks.nvim",             -- for input provider snacks
+    --         "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
+    --         "zbirenbaum/copilot.lua",        -- for providers='copilot'
+    --         'HakonHarnes/img-clip.nvim',
+    --         'stevearc/dressing.nvim',
+    --         'MunifTanjim/nui.nvim',
+    --         'MeanderingProgrammer/render-markdown.nvim',
+    --     },
+    --     config = function()
+    --         require('avante').setup({
+    --             providers = {
+    --                 'copilot',
+    --             }
+    --         }
+    --
+    --         )
+    --     end
+    -- }
+
+    -- Required plugins
+    use 'nvim-treesitter/nvim-treesitter'
+    use 'nvim-lua/plenary.nvim'
+    use 'MunifTanjim/nui.nvim'
+    use 'MeanderingProgrammer/render-markdown.nvim'
+
+    -- Optional dependencies
+    use 'hrsh7th/nvim-cmp'
+    use 'nvim-tree/nvim-web-devicons' -- or use 'echasnovski/mini.icons'
+    use 'HakonHarnes/img-clip.nvim'
+    use 'zbirenbaum/copilot.lua'
+    use 'stevearc/dressing.nvim' -- for enhanced input UI
+    use 'folke/snacks.nvim'    -- for modern input UI
+
+    -- Avante.nvim with build process
+    use {
+        'yetone/avante.nvim',
+        branch = 'main',
+        run = 'make',
+        config = function()
+            require('avante').setup()
+        end
+    }
 end)

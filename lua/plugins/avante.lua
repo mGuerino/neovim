@@ -1,93 +1,81 @@
 return {
   "yetone/avante.nvim",
   event = "VeryLazy",
-  version = false, -- Never set this value to "*"! Never!
+  version = false,
   opts = {
-    -- add any opts here
-    -- for example
     provider = "copilot",
     providers = {
-        copilot = {
-            model = "claude-sonnet-4"
-        },
-    },
-    -- Configuration pour améliorer la visibilité des diffs avec dayfox
-    highlights = {
-      diff = {
-        current = "DiffText",      -- Surbrillance pour le code actuel
-        incoming = "DiffAdd",      -- Surbrillance pour les ajouts
-        removed = "DiffDelete",    -- Surbrillance pour les suppressions
+      copilot = {
+            model = "claude-sonnet-4",
       },
     },
-    -- Amélioration du contraste pour dayfox theme
+    highlights = {
+      diff = {
+        current = "DiffText",
+        incoming = "DiffAdd",
+      },
+    },
     behavior = {
-      auto_suggestions = false,  -- Désactive les suggestions automatiques
+            auto_suggestions = true,
       auto_set_highlight_group = true,
       auto_set_keymaps = true,
       auto_apply_diff_after_generation = false,
       support_paste_from_clipboard = false,
     },
     windows = {
-      position = "right",          -- Position de la fenêtre Avante
-      width = 30,                  -- Largeur en pourcentage
+      position = "right",
+      width = 35,
       sidebar_header = {
         align = "center",
         rounded = true,
       },
     },
-    diff = {
-      autojump = true,            -- Saut automatique aux diffs
-      list_opener = "copen",      -- Commande pour ouvrir la liste des diffs
+    ask = {
+      floating = false,
+      -- border = "rounded",
     },
-    -- system_prompt as function ensures LLM always has latest MCP server state
-    -- This is evaluated for every message, even in existing chats
+    -- diff = {
+    --   autojump = true,
+    --   list_opener = "copen",
+    -- },
     system_prompt = function()
-        local hub = require("mcphub").get_hub_instance()
-        return hub and hub:get_active_servers_prompt() or ""
+      local hub = require("mcphub").get_hub_instance()
+      return hub and hub:get_active_servers_prompt() or ""
     end,
-    -- Using function prevents requiring mcphub before it's loaded
     custom_tools = function()
-        return {
-            require("mcphub.extensions.avante").mcp_tool(),
-        }
+      return {
+        require("mcphub.extensions.avante").mcp_tool(),
+      }
     end,
   },
-  -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
   build = "make",
-  -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
-    --- The below dependencies are optional,
-    "echasnovski/mini.pick", -- for file_selector provider mini.pick
-    "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-    "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-    "ibhagwan/fzf-lua", -- for file_selector provider fzf
-    "stevearc/dressing.nvim", -- for input provider dressing
-    "folke/snacks.nvim", -- for input provider snacks
-    "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-    -- "zbirenbaum/copilot.lua", -- for providers='copilot'
+    "echasnovski/mini.pick",
+    "nvim-telescope/telescope.nvim",
+    "hrsh7th/nvim-cmp",
+    "ibhagwan/fzf-lua",
+    "stevearc/dressing.nvim",
+    "folke/snacks.nvim",
+    "nvim-tree/nvim-web-devicons",
     {
-      -- support for image pasting
       "HakonHarnes/img-clip.nvim",
       event = "VeryLazy",
       opts = {
-        -- recommended settings
         default = {
           embed_image_as_base64 = false,
           prompt_for_file_name = false,
           drag_and_drop = {
             insert_mode = true,
           },
-          -- required for Windows users
           use_absolute_path = true,
         },
       },
     },
     {
-      -- Make sure to set this up properly if you have lazy=true
-      'MeanderingProgrammer/render-markdown.nvim',
+      "MeanderingProgrammer/render-markdown.nvim",
       opts = {
         file_types = { "markdown", "Avante" },
       },
@@ -95,24 +83,31 @@ return {
     },
   },
   keys = {
-        {
-            "<leader>+",
-            function()
-                local tree_ext = require("avante.extensions.nvim_tree")
-                tree_ext.add_file()
-            end,
-            desc = "Select file in NvimTree",
-            ft = "NvimTree",
-        },
-        {
-            "<leader>-",
-            function()
-                local tree_ext = require("avante.extensions.nvim_tree")
-                tree_ext.remove_file()
-            end,
-            desc = "Deselect file in NvimTree",
-            ft = "NvimTree",
-        },
+    {
+      "<leader>+",
+      function()
+        require("avante.extensions.nvim_tree").add_file()
+      end,
+      desc = "Select file in NvimTree",
+      ft = "NvimTree",
     },
+    {
+      "<leader>-",
+      function()
+        require("avante.extensions.nvim_tree").remove_file()
+      end,
+      desc = "Deselect file in NvimTree",
+      ft = "NvimTree",
+    },
+  },
+  config = function(_, opts)
+    require("avante").setup(opts)
 
+    -- 🎨 Personnalisation des conflits Avante
+    vim.api.nvim_set_hl(0, "AvanteToBeDeletedWOStrikethrough", { bg = "#ffc0cb" })
+    vim.api.nvim_set_hl(0, "AvanteConflictCurrent", { bg = "#a8cc8c", fg = "#2d3748" })
+    vim.api.nvim_set_hl(0, "AvanteConflictIncoming", { bg = "#b4d5a4", fg = "#2d3748" })
+    vim.api.nvim_set_hl(0, "AvanteConflictCurrentLabel", { bg = "#8db572", fg = "#1a202c", bold = true })
+    vim.api.nvim_set_hl(0, "AvanteConflictIncomingLabel", { bg = "#9bc585", fg = "#1a202c", bold = true })
+  end,
 }

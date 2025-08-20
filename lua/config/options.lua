@@ -47,3 +47,5 @@ vim.o.expandtab = true
 vim.bo.expandtab = true
 vim.o.swapfile = false
 vim.o.autoread = true
+-- views can only be fully collapsed with the global statusline
+vim.opt.laststatus = 3

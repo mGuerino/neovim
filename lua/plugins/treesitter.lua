@@ -58,6 +58,11 @@ return {
                 textobjects = {
                     enable = true,
                 },
+                -- Configuration de matchup pour une meilleure navigation
+                matchup = {
+                    enable = true,
+                    disable = {},
+                },
             })
             -- Configuration spécifique pour les fichiers blade
             vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
